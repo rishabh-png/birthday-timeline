@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Birthday Timeline</title>
+<style>
+:root{
+  --bg:#fffaf5;
+  --text:#2b2b2b;
+  --accent:#e07a5f;
+  --card:#ffffff;
+  --line:#f2c4b3;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.hero{
+  text-align:center;
+  padding:4rem 1rem 2.5rem;
+}
+
+.hero h1{
+  font-size:2.6rem;
+  margin-bottom:.4rem;
+}
+
+.hero p{
+  font-size:1.1rem;
+  opacity:.8;
+}
+
+.timeline-container{
+  position:relative;
+  max-width:850px;
+  margin:0 auto;
+  padding:2rem 1rem;
+}
+
+/* BASE TIMELINE LINE */
+.timeline-container::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  width:4px;
+  height:100%;
+  background:var(--line);
+  transform:translateX(-50%);
+}
+
+/* SCROLL PROGRESS LINE */
+.progress-line{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:4px;
+  height:0%;
+  background:var(--accent);
+  transform:translateX(-50%);
+  transition:height .15s linear;
+  z-index:2;
+}
+
+.timeline-item{
+  display:flex;
+  margin:4rem 0;
+  position:relative;
+  opacity:0;
+  transform:translateY(40px);
+  transition:all .7s ease;
+}
+
+.timeline-item.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.timeline-item.left{justify-content:flex-end}
+.timeline-item.right{justify-content:flex-start}
+
+.timeline-item::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:30px;
+  width:14px;
+  height:14px;
+  background:var(--accent);
+  border-radius:50%;
+  transform:translateX(-50%);
+  z-index:3;
+}
+
+.timeline-content{
+  width:44%;
+}
+
+.memory-photo{
+  width:100%;
+  border-radius:14px;
+  object-fit:cover;
+  aspect-ratio:4/3;
+  cursor:pointer;
+  box-shadow:0 15px 40px rgba(0,0,0,0.12);
+  transition:transform .25s ease;
+}
+
+.memory-photo:hover{
+  transform:scale(1.03);
+}
+
+.caption{
+  margin-top:12px;
+  font-size:1rem;
+  line-height:1.6;
+  text-align:center;
+  padding:0 10px;
+}
+
+.date{
+  text-align:center;
+  font-size:.75rem;
+  margin-top:6px;
+  color:var(--accent);
+  letter-spacing:.08em;
+}
+
+.letter{
+  max-width:620px;
+  margin:6rem auto;
+  padding:2.6rem 2.2rem;
+  background:#fff;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,0.08);
+}
+
+.letter h2{
+  margin-bottom:1rem;
+}
+
+footer{
+  text-align:center;
+  padding:2rem;
+  opacity:.6;
+  font-size:.9rem;
+}
+
+/* LIGHTBOX */
+
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+}
+
+.lightbox img{
+  max-width:95%;
+  max-height:90vh;
+  border-radius:10px;
+}
+
+.lightbox-close{
+  position:absolute;
+  top:25px;
+  right:35px;
+  color:white;
+  font-size:34px;
+  cursor:pointer;
+}
+
+@media(max-width:768px){
+
+.timeline-container::before{left:20px}
+
+.progress-line{left:20px}
+
+.timeline-item,
+.timeline-item.left,
+.timeline-item.right{justify-content:flex-start}
+
+.timeline-item::before{left:20px}
+
+.timeline-content{
+  width:calc(100% - 60px);
+  margin-left:40px
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="password-screen" style="position:fixed;inset:0;background:#fffaf5;display:flex;align-items:center;justify-content:center;z-index:9999">
+  <div style="background:white;padding:40px 50px;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.15);text-align:center;max-width:320px;width:90%">
+    <h2>Enter Password</h2>
+    <p style="opacity:.7;font-size:.9rem">Hint: maybe an inside joke</p>
+    <input id="password-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter'){checkPassword()}" style="width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #ddd" />
+    <button onclick="checkPassword()" style="margin-top:14px;width:100%;padding:10px;border:none;border-radius:8px;background:#e07a5f;color:white;font-weight:600">Unlock</button>
+    <p id="error" style="color:#c0392b;font-size:.85rem;margin-top:10px;display:none">Wrong password</p>
+  </div>
+</div>
+
+<div id="site" style="display:none">
+
+<header class="hero">
+<h1>Happy Birthday</h1>
+<p>A small walk through our memories</p>
+</header>
+
+<main class="timeline-container" id="timeline">
+<div class="progress-line" id="progress-line"></div>
+</main>
+
+<section class="letter">
+<h2>One Last Thing</h2>
+<p>
+This is where your final message goes. Something personal.
+Something only the two of you understand.
+</p>
+</section>
+
+<footer>
+Made with ❤️
+</footer>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+<div class="lightbox-close" onclick="closeLightbox()">✕</div>
+<img id="lightbox-img" />
+</div>
+
+<script>
+
+function checkPassword(){
+
+const correctPassword="birthday";
+
+const input=document.getElementById("password-input").value;
+
+if(input===correctPassword){
+
+ document.getElementById("password-screen").style.display="none";
+ document.getElementById("site").style.display="block";
+ initTimeline();
+ initScrollProgress();
+
+}else{
+ document.getElementById("error").style.display="block";
+}
+
+}
+
+function initTimeline(){
+
+const events=[
+{
+ date:"2016",
+ caption:"That trip where we had no plan and somehow everything worked.",
+ image:"images/image-1.jpeg"
+},
+{
+ date:"2019",
+ caption:"The phase where life was messy but we somehow figured it out.",
+ image:"images/image-2.jpeg"
+},
+{
+ date:"2021",
+ caption:"Lockdown calls, terrible memes, and somehow getting closer.",
+ image:"images/image-3.jpeg"
+}
+];
+
+const timeline=document.getElementById("timeline");
+
+
+events.forEach((event,index)=>{
+
+const side=index%2===0?"left":"right";
+
+const item=document.createElement("div");
+item.className=`timeline-item ${side}`;
+
+item.innerHTML=`
+
+<div class="timeline-content">
+
+<img class="memory-photo" src="${event.image}" loading="lazy" onclick="openLightbox('${event.image}')" />
+
+<div class="caption">${event.caption}</div>
+
+<div class="date">${event.date}</div>
+
+</div>
+
+`;
+
+timeline.appendChild(item);
+
+});
+
+const observer=new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+ entry.target.classList.add("show");
+}
+
+});
+
+},{threshold:.2});
+
+
+document.querySelectorAll(".timeline-item").forEach(item=>observer.observe(item));
+
+}
+
+/* SCROLL PROGRESS */
+
+function initScrollProgress(){
+
+const progressLine=document.getElementById("progress-line");
+
+window.addEventListener("scroll",()=>{
+
+const scrollTop=window.scrollY;
+const docHeight=document.documentElement.scrollHeight-window.innerHeight;
+
+const progress=(scrollTop/docHeight)*100;
+
+progressLine.style.height=progress+"%";
+
+});
+
+}
+
+function openLightbox(src){
+
+const lightbox=document.getElementById("lightbox");
+const img=document.getElementById("lightbox-img");
+
+img.src=src;
+lightbox.style.display="flex";
+
+}
+
+function closeLightbox(){
+ document.getElementById("lightbox").style.display="none";
+}
+
+// close if background clicked
+
+document.addEventListener("click",function(e){
+
+const lightbox=document.getElementById("lightbox");
+
+if(e.target===lightbox){
+ closeLightbox();
+}
+
+});
+
+</script>
+
+</body>
+</html>
+
