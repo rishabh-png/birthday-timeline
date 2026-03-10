@@ -25,8 +25,7 @@ body{
   overflow-x:hidden;
 }
 
-/* HOGWARTS LETTER INTRO */
-
+/* INTRO LETTER */
 .intro{
   position:fixed;
   inset:0;
@@ -54,16 +53,7 @@ body{
   to{transform:scale(1);opacity:1}
 }
 
-.letter-card h1{
-  font-family:"Cinzel";
-  font-size:1.6rem;
-  margin-bottom:10px;
-}
-
-.letter-card p{
-  font-size:1rem;
-  line-height:1.6;
-}
+.letter-card h1{font-family:"Cinzel";font-size:1.6rem}
 
 .letter-card button{
   margin-top:20px;
@@ -76,18 +66,8 @@ body{
   cursor:pointer;
 }
 
-.hero{
-  text-align:center;
-  padding:4rem 1rem 2.5rem;
-}
-
-.hero h1{
-  font-family:"Cinzel",serif;
-  font-size:2.6rem;
-  margin-bottom:.4rem;
-}
-
-.hero p{font-size:1.1rem;opacity:.85}
+.hero{text-align:center;padding:4rem 1rem 2.5rem}
+.hero h1{font-family:"Cinzel",serif;font-size:2.6rem}
 
 .timeline-container{
   position:relative;
@@ -115,8 +95,6 @@ body{
   height:0%;
   background:var(--accent);
   transform:translateX(-50%);
-  transition:height .15s linear;
-  z-index:2;
 }
 
 .timeline-item{
@@ -143,7 +121,6 @@ body{
   background:var(--accent);
   border-radius:50%;
   transform:translateX(-50%);
-  z-index:3;
 }
 
 .timeline-content{width:44%}
@@ -155,25 +132,13 @@ body{
   aspect-ratio:4/3;
   cursor:pointer;
   box-shadow:0 15px 40px rgba(0,0,0,0.18);
-  transition:transform .25s ease;
 }
-
-.memory-photo:hover{transform:scale(1.03)}
 
 .caption{
   margin-top:12px;
   font-size:1.05rem;
   line-height:1.6;
   text-align:center;
-  padding:0 10px;
-}
-
-.date{
-  text-align:center;
-  font-size:.75rem;
-  margin-top:6px;
-  color:var(--accent);
-  letter-spacing:.08em;
 }
 
 .letter{
@@ -185,10 +150,6 @@ body{
   text-align:center;
   box-shadow:0 20px 50px rgba(0,0,0,0.12);
 }
-
-.letter h2{font-family:"Cinzel",serif;margin-bottom:1rem}
-
-footer{text-align:center;padding:2rem;opacity:.6;font-size:.9rem}
 
 .music-toggle{
   position:fixed;
@@ -204,7 +165,6 @@ footer{text-align:center;padding:2rem;opacity:.6;font-size:.9rem}
   justify-content:center;
   cursor:pointer;
   font-size:20px;
-  box-shadow:0 6px 20px rgba(0,0,0,0.25);
   z-index:9999;
 }
 
@@ -221,12 +181,13 @@ footer{text-align:center;padding:2rem;opacity:.6;font-size:.9rem}
 .lightbox img{max-width:95%;max-height:90vh;border-radius:10px}
 
 .lightbox-close{
-  position:absolute;
-  top:25px;
-  right:35px;
-  color:white;
-  font-size:34px;
-  cursor:pointer;
+ position:absolute;
+ top:30px;
+ right:40px;
+ font-size:32px;
+ color:white;
+ cursor:pointer;
+ user-select:none;
 }
 
 .sparkle{
@@ -234,72 +195,51 @@ footer{text-align:center;padding:2rem;opacity:.6;font-size:.9rem}
   pointer-events:none;
   font-size:14px;
   animation:sparkleFade 700ms ease-out forwards;
-  z-index:6000;
 }
 
 @keyframes sparkleFade{
-  0%{opacity:1;transform:scale(0.6) translateY(0)}
-  100%{opacity:0;transform:scale(1.4) translateY(-10px)}
+  0%{opacity:1;transform:scale(.6)}
+  100%{opacity:0;transform:scale(1.4)}
 }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:radial-gradient(circle at 20% 20%, rgba(255,255,255,0.25), transparent 40%),
-             radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 45%);
-  z-index:-1;
-}
-
-@media(max-width:768px){
-.timeline-container::before{left:20px}
-.progress-line{left:20px}
-.timeline-item,
-.timeline-item.left,
-.timeline-item.right{justify-content:flex-start}
-.timeline-item::before{left:20px}
-.timeline-content{width:calc(100% - 60px);margin-left:40px}
-}
 </style>
 </head>
 
 <body>
 
-<!-- HOGWARTS LETTER INTRO -->
 <div id="intro" class="intro">
   <div class="letter-card">
     <h1>Hogwarts School of Witchcraft & Wizardry</h1>
-    <p>
-      Dear Friend,
-      <br><br>
-      You are invited to revisit a series of magical memories.
-      A journey through moments that deserve to be remembered.
-    </p>
+    <p>Dear Friend,<br><br>You are invited to revisit magical memories.</p>
     <button onclick="enterSite()">Open Letter</button>
   </div>
 </div>
 
 <div id="password-screen" style="display:none;position:fixed;inset:0;background:#f5efe3;align-items:center;justify-content:center;z-index:9999">
-  <div style="background:white;padding:40px 50px;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.15);text-align:center;max-width:320px;width:90%">
+  <div style="background:white;padding:40px;border-radius:16px;text-align:center;width:300px">
 
     <h2 style="font-family:Cinzel">I solemnly swear...</h2>
-    <p style="opacity:.7;font-size:.9rem">that I am up to no good</p>
+    <p style="opacity:.7">that I am up to no good</p>
 
-    <input id="password-input" type="password" placeholder="Enter the secret" onkeydown="if(event.key==='Enter'){checkPassword()}" style="width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #ddd" />
+    <input id="password-input" type="password" placeholder="Enter the secret" 
+    onkeydown="if(event.key==='Enter'){checkPassword()}" 
+    style="width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #ddd" />
 
-    <p style="font-size:.8rem;opacity:.6;margin-top:6px">Hint: your inside joke here</p>
+    <p style="font-size:.8rem;opacity:.6">Hint: our first meeting place</p>
 
-    <button onclick="checkPassword()" style="margin-top:14px;width:100%;padding:10px;border:none;border-radius:8px;background:#9c7a3c;color:white;font-weight:600">Reveal Memories</button>
+    <button onclick="checkPassword()" style="margin-top:12px;width:100%;padding:10px;border:none;border-radius:8px;background:#9c7a3c;color:white">
+      Reveal Memories
+    </button>
 
-    <p id="error" style="color:#c0392b;font-size:.85rem;margin-top:10px;display:none">That doesn't seem right...</p>
+    <p id="error" style="color:#c0392b;display:none">That doesn't seem right...</p>
   </div>
 </div>
 
 <div id="site" style="display:none">
 
 <header class="hero">
-<h1>The Marauder's Memory Map</h1>
-<p>A journey through our magical moments</p>
+<h1>The Toucan's Memory Map</h1>
+<p>A journey through magical moments</p>
 </header>
 
 <main class="timeline-container" id="timeline">
@@ -308,15 +248,18 @@ body::before{
 
 <section class="letter">
 <h2>One Last Thing</h2>
-<p>Every great wizarding story deserves a final note. This is where your message goes.</p>
+<p>You are the most genuine, loveliest, warmest, gol-est, most hardworking, most caring, most selfless person I have met. 
+  I am blessed to have you. Live your life like there's no end and do not regret, life is short - just fuck it and move on.
+   I hope you kill whatever you pursue this year.
+  I will always try to be your biggest chearleader. Happiest birthday toucansssss :)</p>
 </section>
 
-<footer>Mischief Managed ✨</footer>
+<footer style="text-align:center;padding:2rem">From Boozie✨</footer>
 
 </div>
 
 <div class="lightbox" id="lightbox">
-<div class="lightbox-close" onclick="closeLightbox()">✕</div>
+<span class="lightbox-close" onclick="closeLightbox()">✕</span>
 <img id="lightbox-img" />
 </div>
 
@@ -337,12 +280,11 @@ function enterSite(){
 
 function checkPassword(){
 
-const correctPassword="birthday";
+const correctPassword="sherlocks";
 
 const input=document.getElementById("password-input").value;
 
 if(input===correctPassword){
-
  document.getElementById("password-screen").style.display="none";
  document.getElementById("site").style.display="block";
 
@@ -357,53 +299,140 @@ if(input===correctPassword){
 }
 
 function startMusic(){
+ const music=document.getElementById("bg-music");
+ const icon=document.getElementById("music-toggle");
 
-const music=document.getElementById("bg-music");
+ music.volume=0.4;
 
-music.volume=0.4;
-
-music.play().catch(()=>{});
-
-musicPlaying=true;
-
+ music.play().then(()=>{
+   musicPlaying=true;
+   icon.innerText="🔊";
+ }).catch(()=>{
+   musicPlaying=false;
+   icon.innerText="🔇";
+ });
 }
 
 function toggleMusic(){
+ const music=document.getElementById("bg-music");
+ const icon=document.getElementById("music-toggle");
 
-const music=document.getElementById("bg-music");
-const icon=document.getElementById("music-toggle");
-
-if(musicPlaying){
- music.pause();
- icon.innerText="🔇";
- musicPlaying=false;
-}else{
- music.play();
- icon.innerText="🔊";
- musicPlaying=true;
-}
-
+ if(musicPlaying){
+   music.pause();
+   icon.innerText="🔇";
+   musicPlaying=false;
+ }else{
+   music.play();
+   icon.innerText="🔊";
+   musicPlaying=true;
+ }
 }
 
 function initTimeline(){
 
 const events=[
 {
- date:"2016",
- caption:"That trip where we had no plan and somehow everything worked.",
- image:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+caption:"Kochi kochi hota hai - Vape ka apne aap khona, physical exercise, almost bus mai mime senior, baby shark, fort kochi - lots of stories but I guess it was the start of something beautiful and what better place than Kochi",
+image:"images/image1.jpeg"
 },
 {
- date:"2019",
- caption:"The phase where life was messy but we somehow figured it out.",
- image:"https://images.unsplash.com/photo-1500534314209-a25ddb2bd429"
+caption:"Tuta per - I think this was a super difficult time (but we got to spend a lot of time together so yeah :) ), from this to Hampta pass, quite a feat toucan!!",
+image:"images/image2.jpeg"
 },
 {
- date:"2021",
- caption:"Lockdown calls, terrible memes, and somehow getting closer.",
- image:"https://images.unsplash.com/photo-1520975916090-3105956dac38"
-}
+caption:"Pondi Trip - First trip standing perfectly well on your own feet xD",
+image:"images/image3.jpeg"
+},
+{
+caption:"Fort Kochi - Introducing the gem of Fort Kochi to peasants, quite a trip, lots of greens and blues.",
+image:"images/image4.jpeg"
+},
+{
+caption:"How can something be disgusting and beautiful at the same time",
+image:"images/image5.jpeg"
+},
+{
+caption:"Coorg trip!! - Red car on top of sunset point, gorgeous stay, great weather WFH great food (remember the cold coffee spree?) and you :)",
+image:"images/image6.jpeg"
+},
+{
+caption:"I dont like concerts - Sure, lets go 2 hours away for Prateek Kuhaad then :), our first concert (after the fictional Twin strings concert)",
+image:"images/image7.jpeg"
+},
+{
+caption:"We have a liking for Coorg - Remember Jatin ka budday, all those leeches, champagne and stars do trim trim :)",
+image:"images/image8.jpeg"
+},
+{
+caption:":)) Looking back with a smile at this memory, You do have a liking for this human who makes you genuinely smile (and laugh out loud sometimes as well, way too loud sometimes xD, ghe ghe ghe ghe)",
+image:"images/image9.jpeg"
+},
+{
+caption:"Khush to aise ho rahe hai jaise inki shaadi hone vaali hai :)",
+image:"images/image10.jpeg"
+},
+{
+caption:"She said Yes kinda trip - Cost trip is going to be one of the most memorable trips for me, crazy ecosport, sunset cruise with kannada vibe, that gole vala stay in Gokarna, Black mirror on fever, me spending time with room while you guys chilling in pool (and that stay ka food still makes me cry that I cant have it anytime soon), Christmas vibe in South goa, we with those Santa hats, that sunset kayaking and a lot more.",
+image:"images/image11.jpeg"
+},
+{
+caption:"The meetup with Mom happened earlier than usual - I hope we can show it to her in future and ask - Did you have a clue?",
+image:"images/image12.jpeg"
+},
+{
+caption:"The moment of truth - Take a deep breath (if you can now because it felt otherwise at one of the best lakes I have seen - The Chandrataal), you did it, we did it, it felt like an achievement honestly. Taking a shit on a pit - no thanks that is not what I signed up for when I saw those photos xD but the cozy tents in the lap of mountains, the mental peace, the heavenly sunrise and sunsets, living with the rivers, gazing at the milky way, challenging yourself to see are you old already - it was all worth it towards the end",
+image:"images/image13.jpeg"
+},
+{
+caption:"I had to wear the high neck because when will I otherwise so i did it irrespecetive :)",
+image:"images/image14.jpeg"
+},
+{
+caption:"Oberoiiiii, spending 30k for a stay in the same city? Hell yes, quite a memory right? Walls are not meant for stuff that you were in to that day (just saying). Future us would always remember we wanted to spend on us and were never maansik Garib because itna paise saath mai thodi leke jaana hai! Bas exist thodi karna hai, jeena hai :)",
+image:"images/image15.jpeg"
+},
+{
+caption:"If genie asked you for 3 wishes, I can bet one of it would be office ka MacBook!!",
+image:"images/image16.jpeg"
+},
+{
+caption:"I am so proud of you for making this switch, Amazon is going to be really good for you, I hope you kill it here (like you’ve been currently). I am blessed that we go to the same place for work, I would cherish the cab (now Slavia) rides that we share while going to office talking, sometimes singing absolutely random stuff. Let’s bring back Deli marche to our lives pleaseee!!",
+image:"images/image17.jpeg"
+},
+{
+caption:"Remember the trip where TT enthusiast within you woke up xD, Tata Nexxon trip (quite a bummer, literally :p)",
+image:"images/image18.jpeg"
+},
+{
+caption:"From this to joining jhAMURA, quite a journey toucans, can we skip to the good part please",
+image:"images/image19.jpeg"
+},
+{
+caption:"Us and varkala, I feel it has the potential to become fort kochi the second",
+image:"images/image20.jpeg"
+},
+{
+caption:"Birthday bummers, thank you for making it happen, Varkala will always be one the prettiest places I have been to :)",
+image:"images/image21.jpeg"
+},
+{
+caption:"Our first time together in traditionals, Abha seemed like a very fun person, I could see you were genuinely happy for her, I love that about you that you are a pure and genuine person",
+image:"images/image22.jpeg"
+},
+{
+caption:"Just cross off the bartender career when you are brainstorming options (joking xD those were really fine)",
+image:"images/image23.jpeg"
+},
+{
+caption:"Welcome to the wedding of Pratik and Aaisha: quite an experience right? Such an overwhelming and pure feeling. Wish we get to experience the same soon :)",
+image:"images/image24.jpeg"
+},
+{
+caption:"Just like this picture of two of us, I hope we keep pushing each other to become better versions of ourselves: physically, emotionally and mentally. And as I used to say: I am here to stay, I plan to spend a lifetime with you.",
+image:"images/image25.jpeg"
+},
 ];
+
 
 const timeline=document.getElementById("timeline");
 
@@ -418,21 +447,26 @@ item.innerHTML=`
 <div class="timeline-content">
 <img class="memory-photo" src="${event.image}" loading="lazy" onclick="openLightbox('${event.image}')" />
 <div class="caption">${event.caption}</div>
-<div class="date">${event.date}</div>
 </div>`;
 
-timeline.appendChild(item);
-
+ timeline.appendChild(item);
 });
 
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){entry.target.classList.add("show")}
-});
-},{threshold:.2});
+let observer;
 
+if('IntersectionObserver' in window){
+ observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+   if(entry.isIntersecting){
+     entry.target.classList.add("show");
+   }
+  });
+ },{threshold:.2});
+}
 
-document.querySelectorAll(".timeline-item").forEach(item=>observer.observe(item));
+ document.querySelectorAll(".timeline-item").forEach(item=>{
+  if(observer){observer.observe(item);}else{item.classList.add("show");}
+ });
 
 }
 
@@ -454,62 +488,53 @@ progressLine.style.height=progress+"%";
 }
 
 function openLightbox(src){
+ const lightbox=document.getElementById("lightbox");
+ const img=document.getElementById("lightbox-img");
 
-const lightbox=document.getElementById("lightbox");
-const img=document.getElementById("lightbox-img");
-
-img.src=src;
-lightbox.style.display="flex";
-
+ img.src=src;
+ lightbox.style.display="flex";
 }
 
 function closeLightbox(){
  document.getElementById("lightbox").style.display="none";
 }
 
-document.addEventListener("click",function(e){
-
-const lightbox=document.getElementById("lightbox");
-
-if(e.target===lightbox){
- closeLightbox();
-}
-
-});
-
 function createSparkle(x,y){
+ const s=document.createElement("div");
+ s.className="sparkle";
+ s.innerText="✨";
 
-const s=document.createElement("div");
-s.className="sparkle";
-s.innerText="✨";
+ s.style.left=x+"px";
+ s.style.top=y+"px";
 
-s.style.left=x+"px";
-s.style.top=y+"px";
+ document.body.appendChild(s);
 
-document.body.appendChild(s);
-
-setTimeout(()=>s.remove(),700);
-
+ setTimeout(()=>{
+  s.remove();
+ },700);
 }
 
 let sparkleThrottle=0;
 
-document.addEventListener("mousemove",e=>{
+// ESC closes image
+ document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") closeLightbox();
+ });
 
-if(Date.now()-sparkleThrottle>60){
- createSparkle(e.clientX,e.clientY);
- sparkleThrottle=Date.now();
-}
+// click outside closes
+ document.getElementById("lightbox").addEventListener("click",e=>{
+  if(e.target.id==="lightbox") closeLightbox();
+ });
 
-});
+// sparkle cursor
+ document.addEventListener("mousemove",e=>{
 
-window.addEventListener("scroll",()=>{
+  if(Date.now()-sparkleThrottle>60){
+   createSparkle(e.clientX,e.clientY);
+   sparkleThrottle=Date.now();
+  }
 
-const offset=window.scrollY*0.15;
-
-document.body.style.backgroundPosition=`center ${offset}px`;
-
-});
+ });
 
 </script>
 
